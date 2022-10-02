@@ -4,8 +4,8 @@ const pizzaController = {
 
   getAllPizzas(req, res) {
     Pizza.find({})
-      .then((dbPizzaData) => res.json(dbPizzaData))
-      .catch((err) => {
+      .then(dbPizzaData => res.json(dbPizzaData))
+      .catch(err => {
         console.log(err);
         res.status(400).json(err);
       });
