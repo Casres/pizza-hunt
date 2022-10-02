@@ -3,7 +3,6 @@
 // models for this website. The Pizz-Hunt application.
 
 
-
 // requires the Pizza model schema from the pizza.js file in the models folder
 const Pizza = require('./Pizza');
 
