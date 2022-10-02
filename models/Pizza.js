@@ -5,6 +5,9 @@ const PizzaSchema = new Schema({
         type: String
     },
     createdBy: {
+        type: String
+    },
+    createdAt: {
         type: Date,
         default: Date.now
     },
