@@ -5,5 +5,6 @@
 
 // requires the Pizza model schema from the pizza.js file in the models folder
 const Pizza = require('./Pizza');
+const Comment = require('./Comments');
 
-module.exports = [ Pizza ]; 
+module.exports = [ Pizza, Comment ]; 
