@@ -11,40 +11,37 @@ const commentController = {
           { new: true }
         );
       })
-      .then((dbPizzaData) => {
+      .then(dbPizzaData => {
         if (!dbPizzaData) {
-          res.status(404).json({
-            message: "No pizza is found with this ID, please try again =)",
-          });
+          res.status(404).json({ message: 'No pizza found with this id!' });
           return;
         }
         res.json(dbPizzaData);
       })
-      .catch((err) => res.json(err));
+      .catch(err => res.json(err));
   },
+
   removeComment({ params }, res) {
     Comment.findOneAndDelete({ _id: params.commentId })
-      .then((deleteComment) => {
-        if (!deleteComment) {
-          return res
-            .status(404)
-            .json({ message: "No comment was found with this id" });
+      .then(deletedComment => {
+        if (!deletedComment) {
+          return res.status(404).json({ message: "No comment was found with this id" });
         }
         return Pizza.findOneAndUpdate(
           { _id: params.pizzaId },
-          { $pull: { comments: params.commentsId } },
+          { $pull: { comments: params.commentId } },
           { new: true }
         );
       })
-      .then((dbPizzaData) => {
+      .then(dbPizzaData => {
         if (!dbPizzaData) {
           res.status(404).json({ message: "No pizza found with this id" });
           return;
         }
         res.json(dbPizzaData);
       })
-      .catch((err) => res.json(err));
-  },
+      .catch(err => res.json(err));
+  }
 };
 
 module.exports = commentController;
