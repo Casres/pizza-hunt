@@ -1,15 +1,16 @@
 const Pizza = require("../models/Pizza");
 
 const pizzaController = {
-
   getAllPizzas(req, res) {
     Pizza.find({})
-    .populate({
-      path: 'comments',
-      select: '-__v'
-    })
-      .then(dbPizzaData => res.json(dbPizzaData))
-      .catch(err => {
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      .select("-__v")
+      .sort({ _id: -1 })
+      .then((dbPizzaData) => res.json(dbPizzaData))
+      .catch((err) => {
         console.log(err);
         res.status(400).json(err);
       });
@@ -17,8 +18,12 @@ const pizzaController = {
 
   getPizzaById({ params }, res) {
     Pizza.findOne({ id: params.id })
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      .select("-__v")
       .then((dbPizzaData) => {
-        // if there is no pizza
         if (!dbPizzaData) {
           res.status(404).json({
             message: "No pizza was found with this ID, please try again.",
@@ -55,17 +60,14 @@ const pizzaController = {
     Pizza.findOneAndDelete({ _id: params.id })
       .then((dbPizzaData) => {
         if (!dbPizzaData) {
-          res
-            .status(404)
-            .json({
-              message: "No pizza was found with tis ID, please try again.",
-            });
+          res.status(404).json({
+            message: "No pizza was found with tis ID, please try again.",
+          });
           return;
         }
         res.json(dbPizzaData);
       })
       .catch((err) => res.status(400).json(err));
-  }
-  
+  },
 };
 module.exports = pizzaController;
