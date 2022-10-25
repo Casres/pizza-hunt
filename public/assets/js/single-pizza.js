@@ -9,6 +9,28 @@ const $newCommentForm = document.querySelector('#new-comment-form');
 
 let pizzaId;
 
+function getPizza() {
+  // This gets the ID and then puts it in a variable and runs the 
+  // 1st var that gets the id in the url, aka params
+  const searchParams = new URLSearchParams(document.location.search.substring(1));
+  const pizzaId = searchParams.get('id');
+
+  // This gets the pizzas information
+  fetch(`/api/pizzas/${pizzaId}`)
+  .then(response => {
+    if (!response) {
+      throw new Error({ message: 'Server not responding or something, please try again' });
+    }
+    return response.json();
+  })
+  .then(printPizza)
+  .catch(err => {
+    console.log(err);
+    alert("Cannot find pizza with this ID");
+    window.history.back();
+  })
+}
+
 function printPizza(pizzaData) {
   console.log(pizzaData);
 
@@ -87,6 +109,22 @@ function handleNewCommentSubmit(event) {
   }
 
   const formData = { commentBody, writtenBy };
+
+  fetch(`/api/comments/${pizzaId}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(commentResponse => {
+    console.log(commentResponse);
+    location.reload();
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 
 function handleNewReplySubmit(event) {
@@ -111,6 +149,8 @@ function handleNewReplySubmit(event) {
 $backBtn.addEventListener('click', function() {
   window.history.back();
 });
+
+getPizza();
 
 $newCommentForm.addEventListener('submit', handleNewCommentSubmit);
 $commentSection.addEventListener('submit', handleNewReplySubmit);
