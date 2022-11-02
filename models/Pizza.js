@@ -22,7 +22,7 @@ const PizzaSchema = new Schema(
     comments: [
       {
         type: Schema.Types.ObjectId,
-        //   references the comment model here⌄
+          // references the comment model here⌄
         ref: "Comment",
       },
     ],
@@ -37,7 +37,7 @@ const PizzaSchema = new Schema(
 );
 
 PizzaSchema.virtual("commentCount").get(function () {
-  return this.comments.reduce((total, comment) => total + comment.replies.length + 1, 0);
+  return this.comments.reduce((total, comment) => total + comment.replies + 1, 0);
 });
 
 // this creates the Pizza model using the PizzaSchema

@@ -4,7 +4,7 @@ const dateFormat = require("../utils/dateFormat");
 const ReplySchema = new Schema(
   {
     replyId: {
-      type: Schema.type.ObjectID,
+      type: Schema.Types.ObjectID,
       default: () => new Types.ObjectId(),
     },
     replyBody: {
@@ -53,7 +53,7 @@ const CommentSchema = new Schema(
   }
 );
 
-CommentSchema.virtual("replyCount").get(() => {
+CommentSchema.virtual('replyCount').get(function() {
   return this.replies.length;
 });
 
