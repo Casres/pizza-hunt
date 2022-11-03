@@ -60,6 +60,7 @@ const handlePizzaSubmit = (event) => {
   .then(postResponse => {
     alert("Pizza created successfully!!!!!");
     console.log(postResponse);
+    // location.replace('pizza.html');
   })
   .catch(err => {
     console.log(err);
